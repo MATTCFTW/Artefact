@@ -30,8 +30,7 @@ include_once "head.php";
               <input type="password" class="form-control-lg form-control text-input" name="pwd" placeholder="password">
             </div>
             <div class="col-md-12">
-              <input type="password" class="form-control-lg form-control text-input" name="pwd-repeat"
-                placeholder="confirm password">
+              <input type="password" class="form-control-lg form-control text-input" name="pwd-repeat" placeholder="confirm password">
             </div>
             <?php
             if (isset($_GET["error"])) {  //checks url for an error parameter

@@ -119,7 +119,7 @@ function inputValid($dbConnection, $email, $pwd)
 
 function displayName($dbConnection, $user_id)
 {
-  $sql = "SELECT firstName, lastName FROM users WHERE users_id = $user_id";
+  $sql = "SELECT firstName, lastName FROM users WHERE users_id = '$user_id'";
   $result = mysqli_query($dbConnection, $sql);
 
   $row = mysqli_fetch_assoc($result);
@@ -168,7 +168,7 @@ function createBooking($dbConnection, $doctor, $patient, $date, $time, $option)
 
 function listAppointments($dbConnection, $users_id)
 {
-  $sql = "SELECT doctor_id, date_chosen, time_slot_id, option_chosen, appointment_id FROM appointments WHERE patient_id = $users_id"; //fetches all appointments for that user
+  $sql = "SELECT doctor_id, date_chosen, time_slot_id, option_chosen, appointment_id FROM appointments WHERE patient_id = '$users_id'"; //fetches all appointments for that user
   $result = mysqli_query($dbConnection, $sql);
 
   while ($row = mysqli_fetch_assoc($result)) {
@@ -278,4 +278,132 @@ function deleteUser($users_id, $dbConnection)
   mysqli_stmt_bind_param($test, "s", $users_id);
   mysqli_stmt_execute($test);
   mysqli_stmt_close($test);
+}
+
+function getDoctors($dbConnection)
+{
+  $sql = "SELECT * FROM doctor";
+  $result = mysqli_query($dbConnection, $sql);
+  while ($row = mysqli_fetch_assoc($result)) {
+    //review data for body
+    $doctorId = $row["doctor_id"];
+    $firstName = $row["first_name"];
+    $lastName = $row["last_name"];
+    $expertise = $row["expertise"];
+    $biography = $row["biography"];
+    $email = $row["email"];
+
+    $sqlReviews = "SELECT CAST(AVG(know) AS DECIMAL(3,2)) AS knowAvg, 
+                        CAST(AVG(friendly) AS DECIMAL(3,2)) AS friendAvg, 
+                        CAST(AVG(prof) AS DECIMAL(3,2)) AS profAvg,
+                        COUNT(know) AS reviewCount
+                        FROM reviews where doctor_id = '$doctorId'";
+    $resultReviews = mysqli_query($dbConnection, $sqlReviews);
+    $rowReviews = mysqli_fetch_assoc($resultReviews);
+    $knowledgeAvg = $rowReviews["knowAvg"];
+    $friendAvg = $rowReviews["friendAvg"];
+    $professionalAvg = $rowReviews["profAvg"];
+    $reviewCount = $rowReviews["reviewCount"];
+
+    //body content
+    include "doctorContent.php";
+  }
+}
+
+function addReview($dbConnection, $doctorID, $prof, $friendly, $know)
+{
+  $sql = "INSERT INTO reviews (doctor_id, know, prof, friendly) VALUES (?, ?, ?, ?);";
+  $test = mysqli_stmt_init($dbConnection);
+
+  if (!mysqli_stmt_prepare($test, $sql)) {
+    header("location: ../indexDoctor.php?error=testingfailed");
+    exit();
+  }
+
+  mysqli_stmt_bind_param($test, "ssss", $doctorID, $prof, $friendly, $know); //bind variables to the statement
+  mysqli_stmt_execute($test); //execute statement
+  mysqli_stmt_close($test);
+  header("location: ../indexDoctor.php?error=none");
+  exit();
+}
+
+function sendAppointmentReminders($dbConnection, $tomorrow)
+{
+  $sql = "SELECT patient_id, date_chosen, time_slot_id FROM appointments	WHERE date_Chosen = '$tomorrow'";
+  $result = mysqli_query($dbConnection, $sql);
+  while ($row = mysqli_fetch_assoc($result)) {
+
+    $date = $row["date_chosen"];
+
+    $patientId = $row["patient_id"];
+    $patientSql = "SELECT firstName, lastName, email FROM users WHERE users_id ='$patientId')";
+    $patientQuery = mysqli_query($dbConnection, $patientSql); //perform query
+    $patientResult = mysqli_fetch_assoc($patientQuery); //result to be formatted
+    $patientName = $patientResult["firstName"] . " " . $patientResult["lastName"]; //format
+    $patientEmail = $patientResult["email"];
+
+
+    $timeId = $row["time_slot_id"];
+    $timeSql = "SELECT time_slot FROM times WHERE time_id ='$timeId')";
+    $timeQuery = mysqli_query($dbConnection, $timeSql); //perform query
+    $timeResult = mysqli_fetch_assoc($timeQuery); //result to be formatted
+    $timeSlot = $timeResult["time_slot"]; //format
+
+    /*====
+    This is where an email would be sent to the user. 
+    I have not implemented this system as to not to send emails to real accounts that share
+    the same email address as any dummy accounts that have been used in this proof of concept implementation.
+    ====*/
+
+
+    //email would then be sent to the user using this information
+    $to = $patientEmail;
+
+    $subject = "appointment reminder for " . $date . "(tomorrow)";
+
+    $message = "<h1>Hi" . $patientName . "</h1><p>This email is a reminder for your appointment with us tomorrow at" . $timeResult . "</p>";
+
+    $headers = "From: Health Clinic <temp@gmail.com>\r\n";
+    $headers = "Content-type: text/html\r\n";
+
+    //send the mail containing this information
+  }
+}
+
+function sendReviewReminders($dbConnection, $yesterday, $siteUrl)
+{
+  $sql = "SELECT patient_id, date_chosen, time_slot_id FROM appointments	WHERE date_Chosen = '$yesterday'";
+  $result = mysqli_query($dbConnection, $sql);
+  while ($row = mysqli_fetch_assoc($result)) {
+
+    $date = $row["date_chosen"];
+
+    $patientId = $row["patient_id"];
+    $patientSql = "SELECT firstName, lastName, email FROM users WHERE users_id ='$patientId')";
+    $patientQuery = mysqli_query($dbConnection, $patientSql); //perform query
+    $patientResult = mysqli_fetch_assoc($patientQuery); //result to be formatted
+    $patientName = $patientResult["firstName"] . " " . $patientResult["lastName"]; //format
+    $patientEmail = $patientResult["email"];
+
+
+    /*====
+    This is where an email would be sent to the user. 
+    I have not implemented this system as to not to send emails to real accounts that share
+    the same email address as any dummy accounts that have been used in this proof of concept implementation.
+    ====*/
+
+
+    //email would then be sent to the user using this information
+    $to = $patientEmail;
+
+    $subject = "Review reminder";
+
+    $message = "<h1>Hi" . $patientName . "</h1><p>you had an appointment with us on " . $date . ", and we would love to hear feedback from you. 
+    if you would be happy to provide us with some feedback on your experience please click the link below</p><a href='a " . $siteUrl . "/submitReview.php'</h3>";
+
+    $headers = "From: Health Clinic <temp@gmail.com>\r\n";
+    $headers = "Content-type: text/html\r\n";
+
+    //send the mail containing this information
+  }
 }

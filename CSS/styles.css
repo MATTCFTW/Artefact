@@ -254,6 +254,15 @@ body {
   z-index: 1000;
 }
 
+/*====doctor pages====*/
+.doctor-margin {
+  margin-bottom: 150px;
+}
+
+.review-padding-left {
+  padding-left: 25rem;
+}
+
 /*====media queries====*/
 
 /* Devices under 1199px (xl) */

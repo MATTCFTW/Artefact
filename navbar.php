@@ -9,7 +9,7 @@
       <li class="nav-item"><a class="nav-link active" href="<?php echo $siteUrl; ?>">Home</a></li>
       <li class='nav-item'><a class='nav-link active' href=''>About us</a></li>
       <li class='nav-item'><a class='nav-link active' href="<?php echo $siteUrl; ?>/services.php">Services</a> </li>
-      <li class='nav-item'><a class='nav-link active' href=''>Doctors</a></li>
+      <li class='nav-item'><a class='nav-link active' href="<?php echo $siteUrl; ?>/indexDoctor.php">Doctors</a></li>
       <li class='nav-item'><a class='nav-link active' href=''>FAQ</a></li>
       <li class='nav-item'><a class='nav-link active' href=''>Contact us</a></li>
       <?php

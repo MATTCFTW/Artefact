@@ -22,8 +22,6 @@ if (isset($_GET["error"])) {  //checks url for an error parameter
   <?php
   include_once "navbar.php";
   ?>
-  <!--  pick one of 3 options, takes to hidden booking page -->
-  <!-- uses id from button or something -->
   <!-- content -->
   <div class="container"></div>
   <div class="row d-flex justify-content-center">

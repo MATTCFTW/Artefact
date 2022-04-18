@@ -35,17 +35,12 @@ CREATE TABLE times  (
   time_id INT (20) PRIMARY KEY NOT NULL,
   time_slot VARCHAR (255) NOT NULL
 );
+
 --times data
 INSERT INTO times (time_id, time_slot) VALUES
 (1, 'Morning'),
 (2, 'Afternoon'),
 (3, 'Evening');
-
--- --days table
--- CREATE TABLE days (
---   appointment_id INT (5) PRIMARY KEY AUTO_INCREMENT NOT NULL,
---   date DATE NOT NULL
--- ) 
 
 --user appointments
 CREATE TABLE appointments (
@@ -56,3 +51,13 @@ CREATE TABLE appointments (
   time_slot_id INT (20) NOT NULL FOREIGN KEY REFERENCES times(time_id),
   option_chosen VARCHAR(255) NOT NULL
 ) 
+
+--doctor reviews
+CREATE TABLE reviews (
+  review_id INT (11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  doctor_id INT (11) NOT NULL,
+  know INT (11) NOT NULL COMMENT 'Knowledge Rating',
+  prof INT (11) NOT NULL COMMENT 'Professional Rating',
+  friendly INT (11) NOT NULL COMMENT 'friendliness Rating',
+  FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id)
+)
