@@ -52,9 +52,6 @@ include_once "head.php";
     <a href="/includes/logout.inc.php" class="btn btn-danger btn-lg bn-lg mr-2">Logout</a>
   </div>
 
-
-  <!-- delete account button? -->
-
   <!-- footer -->
   <?php
   include_once 'footer.php';

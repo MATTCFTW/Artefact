@@ -254,6 +254,15 @@ body {
   z-index: 1000;
 }
 
+.plus-icon {
+  color: #276678 !important;
+  font-size: 2em;
+}
+
+.back-button-appointments {
+  margin-bottom: 20px;
+}
+
 /*====doctor pages====*/
 .doctor-margin {
   margin-bottom: 150px;

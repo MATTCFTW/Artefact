@@ -3,14 +3,14 @@ require "includes/config.php";
 session_start();
 if (isset($_SESSION["users_id"]) && $_SESSION["role_id"] = 2) { //testing if the user is signed in and admin
 } else {
-  header("location: $siteUrl"); //returns user to home page if not logged in
+  header("location: $siteUrl"); //returns user to home page if not logged in and an admin user
   exit();
 }
 include_once "head.php";
 ?>
 
 <body>
-  <!--APPOINTMENTS-->
+  <!-- appointments -->
   <section class="my-4 shadow-sm"">
   <a class=" btn btn-danger btn-lg bn-lg mr-2 back-button" href="adminDashboard.php">Go back</a>
     <a class=" btn btn-danger btn-lg bn-lg mr-2 back-button" href="adminCreateUser.php">Create user</a>
@@ -37,7 +37,7 @@ include_once "head.php";
       </div>
     </div>
   </section>
-  <!--END OF APPOINTMENTS-->
+
   <!-- footer -->
   <?php
   include_once 'footer.php';

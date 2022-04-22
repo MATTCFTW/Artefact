@@ -149,6 +149,15 @@ function chooseTimeSlot($dbConnection)
   }
 }
 
+function chooseId($dbConnection)
+{
+  $sql = "SELECT users_id FROM users";
+  $result = mysqli_query($dbConnection, $sql);
+  while ($row = mysqli_fetch_array($result)) {
+    echo "<option value='" . $row['users_id'] . "'>" . $row['users_id']   . "</option>";
+  }
+}
+
 function createBooking($dbConnection, $doctor, $patient, $date, $time, $option)
 {
   $sql = "INSERT INTO appointments (doctor_id, patient_id, date_chosen, time_slot_id, option_chosen) VALUES (?, ?, ?, ?, ?);";
@@ -163,6 +172,7 @@ function createBooking($dbConnection, $doctor, $patient, $date, $time, $option)
   mysqli_stmt_execute($test); //execute statement
   mysqli_stmt_close($test);
   header("location: ../services.php?error=none"); //used for success message for user
+
   exit();
 }
 

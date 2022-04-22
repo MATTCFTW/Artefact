@@ -10,7 +10,7 @@ include_once "head.php";
 ?>
 
 <body>
-  <!--APPOINTMENTS-->
+  <!--appointments -->
   <section class="my-4 shadow-sm"">
   <a class=" btn btn-danger btn-lg bn-lg mr-2 back-button" href="patientDashboard.php">Go back</a>
     <h2 class=" my-3 ml-3">Appointments</h2>
@@ -37,7 +37,7 @@ include_once "head.php";
       </div>
     </div>
   </section>
-  <!--END OF APPOINTMENTS-->
+
   <!-- footer -->
   <?php
   include_once 'footer.php';

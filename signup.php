@@ -30,7 +30,8 @@ include_once "head.php";
               <input type="password" class="form-control-lg form-control text-input" name="pwd" placeholder="password">
             </div>
             <div class="col-md-12">
-              <input type="password" class="form-control-lg form-control text-input" name="pwd-repeat" placeholder="confirm password">
+              <input type="password" class="form-control-lg form-control text-input" name="pwd-repeat"
+                placeholder="confirm password">
             </div>
             <?php
             if (isset($_GET["error"])) {  //checks url for an error parameter
@@ -42,8 +43,9 @@ include_once "head.php";
                 echo "<h2 class='text-center response-text-fail'>Email already in use</h2>";
               } else if ($_GET["error"] == "passwordsdonotmatch") {
                 echo "<h2 class='text-center response-text-fail'>Passwords do not match</h2>";
+              } else if ($_GET["error"] == "testingfailed") {
+                echo "<h2 class='text-center response-text-fail'>The system could not handle the request at this time</h2>";
               }
-              // add testing failed
             }
             ?>
             <button type="submit" class="btn btn-lg btn-block create-button" name="submit">Create</button>

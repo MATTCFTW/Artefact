@@ -31,6 +31,8 @@ include_once "head.php";
                 echo "<h2 class='text-center response-text-fail'>No account is associated with this email</h2>";
               } else if ($_GET["error"] == "incorrectlogin") {
                 echo "<h2 class='text-center response-text-fail'>Invalid Login</h2>";
+              } else if ($_GET["error"] == "testingfailed") {
+                echo "<h2 class='text-center response-text-fail'>The system could not handle the request at this time</h2>";
               }
             }
             ?>

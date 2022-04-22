@@ -3,7 +3,7 @@
   session_start();
   if (isset($_SESSION["users_id"]) && $_SESSION["role_id"] = 2) { //testing if the user is signed in and an admin
   } else {
-    header("location: $siteUrl"); //returns user to home page
+    header("location: $siteUrl"); //returns user to home page if not
     exit();
   }
   include_once "head.php";
@@ -49,8 +49,9 @@
                   echo "<h2 class='text-center response-text-fail'>Email already in use</h2>";
                 } else if ($_GET["error"] == "passwordsdonotmatch") {
                   echo "<h2 class='text-center response-text-fail'>Passwords do not match</h2>";
+                } else if ($_GET["error"] == "testingfailed") {
+                  echo "<h2 class='text-center response-text-fail'>The system could not handle the request at this time</h2>";
                 }
-                // add testing failed
               }
               ?>
               <button type="submit" class="btn btn-lg btn-block create-button" name="submit">Create</button>

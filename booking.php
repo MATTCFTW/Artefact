@@ -40,7 +40,17 @@ include_once "head.php";
             </div>
           </div>
           <form method="post" action="/includes/booking.inc.php">
-            <input type="hidden" name="patient" value="<?php echo $patient_id ?>" />
+            <?php if ($_SESSION["role_id"] == 1) { //normal users are identified by their session id
+              echo "<input type='hidden' name='patient' value='" . $patient_id . "'/>";
+            } elseif ($_SESSION["role_id"] = 2) { //if the user is an admin they are able to choose who they are creating the appointment for, they can create their own doing this too.
+              echo "<div class='form-group'> <label for='patient'>User Id:</label> <select name='patient'
+                class='form-control' id='patient'>
+                <option value='' disabled selected>Select your option</option>";
+              chooseId($dbConnection);
+              echo "
+              </select> </div>";
+            } ?>
+
             <input type="hidden" name="option" value="<?php echo $option_chosen ?>" />
             <div class="form-group">
               <label for="doctor">Doctor :</label>
@@ -55,8 +65,8 @@ include_once "head.php";
               <label for="date">Date :</label>
               <input type="date" id="date_" name="date" value="" max="2023-01-01" />
               <script>
-                var today = new Date().toISOString().split('T')[0];
-                document.getElementsByName("date")[0].setAttribute('min', today);
+              var today = new Date().toISOString().split('T')[0];
+              document.getElementsByName("date")[0].setAttribute('min', today);
               </script>
             </div>
             <div class="form-group">
